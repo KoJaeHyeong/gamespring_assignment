@@ -8,8 +8,10 @@ export class UserController {
   signUp = async (req: Request, res: Response) => {
     const userInfo = req.body;
 
+    console.log("userInfo", userInfo);
+
     if (userInfo.id.length < 1)
-      throw new HttpExceptionFilter(400, "이메일을 최소 1자이상 입력해주세요.");
+      throw new HttpExceptionFilter(400, "아이디를 최소 1자이상 입력해주세요.");
 
     if (userInfo.password.length < 4)
       throw new HttpExceptionFilter(400, "비밀번호 최소 자리는 4자리입니다.");
@@ -23,14 +25,20 @@ export class UserController {
     const loginInfo = req.body;
 
     if (loginInfo.id.length < 1)
-      throw new HttpExceptionFilter(400, "이메일을 최소 1자이상 입력해주세요.");
+      throw new HttpExceptionFilter(400, "아이디를 최소 1자이상 입력해주세요.");
 
     if (loginInfo.password.length < 4)
       throw new HttpExceptionFilter(400, "비밀번호 최소 자리는 4자리입니다.");
 
-    const result = await this.userService.signIn(loginInfo);
+    const result = await this.userService.signInUser(loginInfo);
     console.log(result);
 
-    return res.status(200).send({ success: true, mgs: "ok" });
+    return res.status(200).send({ success: true, msg: "ok" });
+  };
+
+  findAllUser = async (req: Request, res: Response) => {
+    const result = await this.userService.connectedAllUser();
+
+    return res.status(200).send({ sucess: true, data: result });
   };
 }

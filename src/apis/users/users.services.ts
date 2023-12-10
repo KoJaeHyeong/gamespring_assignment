@@ -8,7 +8,7 @@ export class UserService {
     private readonly userRepository = createConnection().getRepository(User)
   ) {}
 
-  create = async (body: any) => {
+  create = async (body: any): Promise<void> => {
     const { id, password } = body;
     const user = await this.userRepository.findOne({ where: { id } });
 
@@ -22,7 +22,7 @@ export class UserService {
     });
   };
 
-  signIn = async (body: any) => {
+  signInUser = async (body: any): Promise<Boolean> => {
     const { id, password } = body;
 
     const user = await this.userRepository.findOne({ where: { id } });
@@ -35,5 +35,13 @@ export class UserService {
       throw new HttpExceptionFilter(400, "비밀번호가 일치하지 않습니다.");
 
     return true;
+  };
+
+  connectedAllUser = async () => {
+    const users = await this.userRepository.find({
+      relations: ["friends_list"],
+    });
+
+    return users;
   };
 }

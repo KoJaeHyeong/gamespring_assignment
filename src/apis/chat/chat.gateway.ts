@@ -1,1 +1,3 @@
-import {} from "socket.io";
+export class ChatGateway {
+  constructor() {}
+}

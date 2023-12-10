@@ -1,74 +1,62 @@
 body {
-  font-family: sans-serif;
+  font-family: "Arial", sans-serif;
   margin: 0;
   padding: 0;
 }
 
-.container {
-  width: 600px;
-  margin: 0 auto;
+header {
+  background-color: #333;
+  color: white;
+  padding: 10px;
 }
 
-.header {
-  background-color: #000;
-  color: #fff;
-  padding: 20px;
+.menu {
+  float: right;
 }
 
-.main {
-  background-color: #fff;
-  padding: 20px;
+.menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.login,
-.signup {
+.menu li {
+  display: inline-block;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+main {
+  text-align: center;
+  margin: 20px;
+}
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info {
   margin-bottom: 20px;
 }
 
-.login h2,
-.signup h2 {
-  margin: 0;
-  padding: 0;
-}
-
-.login input,
-.signup input {
-  width: 100%;
-  padding: 10px;
+.expandable-content {
   border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.login button,
-.signup button {
-  width: 100%;
-  background-color: #000;
-  color: #fff;
+.join-button button {
   padding: 10px;
+  background-color: #4caf50;
+  color: white;
   border: none;
   cursor: pointer;
 }
 
-.login button:hover,
-.signup button:hover {
-  background-color: #555;
-}
-
-.signup .success {
-  text-align: center;
-  padding: 20px;
-  color: #000;
-  font-size: 16px;
-}
-
-.signup .success img {
-  width: 100px;
-  margin-bottom: 10px;
-}
-
-.signup .success h2 {
-  font-size: 24px;
-}
-
-.signup .success p {
-  font-size: 16px;
+.join-button button:hover {
+  background-color: #45a049;
 }

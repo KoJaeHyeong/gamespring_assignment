@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Rooms</title>
+    <link rel="stylesheet" href="/public/css/users.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul>
+        <li><a href="#">Rooms</a></li>
+        <li class="active"><a href="#">Users</a></li>
+        <li><a href="#">Friends</a></li>
+        <li><a href="#">Logout</a></li>
+      </ul>
+    </nav>
+
+    <div class="user-container">
+      <div class="user">
+        <h2>User 1</h2>
+        <p>ID: <span class="userId">user1_id</span></p>
+        <p>Join Date: <span class="joinDate">2023-01-01</span></p>
+        <p>Friends: <span class="friendCount">0</span></p>
+        <button onclick="sendFriendRequest(1)">Add Friend</button>
+      </div>
+
+      <div class="user">
+        <h2>User 2</h2>
+        <p>ID: <span class="userId">user2_id</span></p>
+        <p>Join Date: <span class="joinDate">2023-01-02</span></p>
+        <p>Friends: <span class="friendCount">0</span></p>
+        <button onclick="sendFriendRequest(2)">Add Friend</button>
+      </div>
+    </div>
+
+    <script src="/public/js/users.js"></script>
+  </body>
+</html>
