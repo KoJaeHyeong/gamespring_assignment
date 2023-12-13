@@ -26,8 +26,12 @@ router.get("/rooms/room2", (req, res) => {
   res.render("room_chat.html", { roomNum: 2 });
 });
 
+router.get("/rooms/users", (req, res) => {
+  res.render("users.html");
+});
+
 router.post("/signup", userController.signUp);
 router.post("/signin", userController.signIn);
-router.get("/user", userController.findAllUser);
+router.get("/rooms/users/:id", userController.findAllUserList);
 
 export default router;

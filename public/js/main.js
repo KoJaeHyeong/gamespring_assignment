@@ -33,3 +33,44 @@ function joinRoom(roomNumber) {
   // socket.emit("joinRoom", { room: `room${roomNumber}`, user_name: userName });
   window.location.href = `rooms/room${roomNumber}?id=${userName}`;
 }
+
+const roomsTab = document.getElementById("roomsTab");
+const usersTab = document.getElementById("usersTab");
+const friendsTab = document.getElementById("friendsTab");
+const logoutTab = document.getElementById("logoutTab");
+
+// navigation bar
+function navigateTo(endPoint) {
+  switch (endPoint) {
+    case "rooms":
+      roomsTab.classList.add("active");
+      usersTab.classList.remove("active");
+      friendsTab.classList.remove("active");
+      logoutTab.classList.remove("active");
+      window.location.href = `rooms?id=${userName}`;
+      break;
+
+    case "users":
+      roomsTab.classList.remove("active");
+      usersTab.classList.add("active");
+      friendsTab.classList.remove("active");
+      logoutTab.classList.remove("active");
+      window.location.href = `rooms/users?id=${userName}`;
+      break;
+
+    case "friends":
+      roomsTab.classList.remove("active");
+      usersTab.classList.remove("active");
+      friendsTab.classList.add("active");
+      logoutTab.classList.remove("active");
+      window.location.href = `rooms?id=${userName}`; //todo friends url
+      break;
+    case "logout":
+      roomsTab.classList.remove("active");
+      usersTab.classList.remove("active");
+      friendsTab.classList.remove("active");
+      logoutTab.classList.add("active");
+      window.location.href = `rooms?id=${userName}`; //todo logout url
+      break;
+  }
+}

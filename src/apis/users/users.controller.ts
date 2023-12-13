@@ -36,8 +36,12 @@ export class UserController {
     return res.status(200).send({ success: true, msg: "ok" });
   };
 
-  findAllUser = async (req: Request, res: Response) => {
-    const result = await this.userService.connectedAllUser();
+  findAllUserList = async (req: Request, res: Response) => {
+    console.log("req.query", req.params);
+
+    const userId = req.params.id;
+
+    const result = await this.userService.connectedAllUser(userId);
 
     return res.status(200).send({ sucess: true, data: result });
   };

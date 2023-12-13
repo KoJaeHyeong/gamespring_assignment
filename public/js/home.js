@@ -6,7 +6,7 @@ const signUp = async () => {
   const passwordValue = getElementById("password");
 
   await axios
-    .post(`${window.location.href}signup`, {
+    .post(`${window.location.href}`, {
       id: idValue,
       password: passwordValue,
     })

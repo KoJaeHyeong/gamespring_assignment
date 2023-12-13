@@ -9,10 +9,18 @@
   <body>
     <nav class="navbar">
       <ul>
-        <li class="active"><a href="#">Rooms</a></li>
-        <li><a href="#">Users</a></li>
-        <li><a href="#">Friends</a></li>
-        <li><a href="#">Logout</a></li>
+        <li id="roomsTab" class="active">
+          <a href="#" onclick="navigateTo('rooms')">Rooms</a>
+        </li>
+        <li id="usersTab">
+          <a href="#" onclick="navigateTo('users')">Users</a>
+        </li>
+        <li id="friendsTab">
+          <a href="#" onclick="navigateTo('friends')">Friends</a>
+        </li>
+        <li id="logoutTab">
+          <a href="#" onclick="navigateTo('logout')">Logout</a>
+        </li>
       </ul>
     </nav>
 

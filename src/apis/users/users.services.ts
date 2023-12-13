@@ -1,4 +1,5 @@
 import * as bcrypt from "bcrypt";
+import { Not } from "typeorm";
 import { createConnection } from "../../../ormconfig";
 import { HttpExceptionFilter } from "../../middleware/http-exception-filter";
 import { User } from "./entity/users.entity";
@@ -37,11 +38,31 @@ export class UserService {
     return true;
   };
 
-  connectedAllUser = async () => {
+  connectedAllUser = async (userId: string) => {
+    // 본인 제외한 친구 정보 조회
     const users = await this.userRepository.find({
+      where: { id: Not(userId) },
       relations: ["friends_list"],
     });
 
-    return users;
+    console.log(users);
+
+    const userData = users.map((el) => {
+      // date날짜 formatting
+      const originalDate = new Date(el.created_at);
+      const year = originalDate.getFullYear();
+      const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
+      const day = originalDate.getDate().toString().padStart(2, "0");
+
+      const formattedDate = `${year}-${month}-${day}`;
+
+      return {
+        id: el.id,
+        friends_count: el.friends_list.length,
+        created_at: formattedDate,
+      };
+    });
+
+    return userData;
   };
 }
