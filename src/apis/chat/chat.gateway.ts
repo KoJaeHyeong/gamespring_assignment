@@ -20,53 +20,48 @@ export class ChatGateway {
   }
 
   socketListen = () => {
-    // interface IConnectedUser {
-    //   user_name: string;
-    //   socket_id: string;
-    // }
-    // const rooms = new Set([{ room: 1 }]);
-
     this.io.on("connection", (socket) => {
       console.log("연결 성공");
+      console.log("server", socket.id);
 
       // 룸정보 수신
       socket.on("userInfo", (user) => {
         const connectedUser = user;
-        // console.log(socket.nsp);
-        socket.emit("userInfo", connectedUser);
         console.log("user : ", connectedUser);
-      });
-      // room에 접속
-      socket.on("joinRoom", (roomNum, name) => {
-        let roomName = roomNum;
-        socket.join(roomName);
-        const room = this.io.sockets.adapter.rooms.get(roomName);
-        const room2 = this.io.sockets.adapter.rooms;
-        // console.log(io.sockets.adapter);
-        // console.log(room);
-        console.log("room", room);
+        console.log("user : ", socket.id);
+        const room1Count =
+          this.io.sockets.adapter.rooms.get("room1")?.size ?? 0;
+        const room2Count =
+          this.io.sockets.adapter.rooms.get("room2")?.size ?? 0;
 
-        if (room) {
-          console.log("@@");
-
-          const usersInRoom = Array.from(room);
-          socket.emit("userInfo", name);
-        }
+        socket.emit("roomInfo", { room1: room1Count, room2: room2Count });
       });
 
-      socket.emit("roomList", ["room1", "room2"]);
-
-      socket.on("roomList", (data) => {
-        console.log("data", data);
+      // 룸 입장
+      socket.on("joinRoom", (data, cb) => {
+        console.log("room:", data);
+        const { room, user_name } = data;
+        socket.join(room);
+        socket.to(room).emit("newUser", data);
+        cb();
       });
 
-      socket.on("roomChat", (msg) => {
-        socket.to("room1").emit("roomChat", msg, "me");
+      // 룸 채팅방 채팅
+      socket.on("send_msg", (data) => {
+        const { room, message } = data;
+        console.log("서버 RoomChat 통신", message);
+
+        console.log("서버 RoomChat 통신", room);
+        socket.to(room).emit("roomChat", data);
       });
 
       socket.on("disconnect", () => {
-        socket.leave("room_1");
         console.log("연결 해제");
+        socket.on("leave_room", (data) => {
+          console.log("SERVER_LEAVE_ROOM");
+
+          socket.leave(data);
+        });
       });
     });
   };

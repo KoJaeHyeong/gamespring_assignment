@@ -1,33 +1,72 @@
 // const socket = io.connect(`http://localhost:3000/rooms`); // room 분기 처리
-const socket = io(); // room 분기 처리
-console.log(window.location.href);
-const roomNameSplit = window.location.href.split("/");
-const roomName = roomNameSplit[roomNameSplit.length - 1];
-console.log(roomName);
-// document.addEventListener("DOMContentLoaded", function () {
+// const socket = io.connect("http://localhost:3000", {
+//   reconnection: true,
+//   reconnectionDelay: 1000,
+//   reconnectionAttempts: 5,
+//   forceNew: false,
+// });
 const messageInput = document.getElementById("messageInput");
 const chatContainer = document.getElementById("chatContainer");
 const sendButton = document.getElementById("sendButton");
+const exitButton = document.getElementById("exitButton");
 
-socket.emit("joinRoom", roomName, "ko1586");
+const userName = window.location.href.split("=")[1];
+const roomNumber = window.location.href.split("/").pop().split("?")[0];
 
-socket.on("userInfo", (data) => {
-  console.log("userInfo", data);
-  userJoined(data);
+const socket = io();
+
+// socket.emit("joinRoom", { user_name: userName, room });
+socket.emit("joinRoom", { room: `${roomNumber}`, user_name: userName }, () => {
+  const message = `${userName}님이 입장하였습니다.`;
+  drawUser(message);
 });
 
-function sendMessage() {
+socket.on("newUser", (data) => {
+  console.log(`${data.user_name}님이 입장하였습니다.`);
+  const message = `${data.user_name}님이 입장하였습니다.`;
+  drawUser(message);
+});
+
+socket.on("roomChat", (data) => {
+  console.log("@@@@@@@너 몇번 호출되니");
+  drawMessage(data);
+});
+
+// socket.on;
+
+function drawUser(message) {
+  const messageElement = document.createElement("div");
+  messageElement.classList.add("chat-message");
+  messageElement.innerHTML = message;
+  chatContainer.appendChild(messageElement);
+
+  // Automatically scroll to the bottom of the chat container
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+function drawMessage(data) {
+  const messageElement = document.createElement("div");
+  messageElement.classList.add("chat-message");
+  messageElement.innerHTML = `${data.user}: ${data.message}`;
+  chatContainer.appendChild(messageElement);
+
+  // Automatically scroll to the bottom of the chat container
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+function sendMessage(e) {
+  e.preventDefault();
   const message = messageInput.value.trim();
   if (message !== "") {
+    const sendData = {
+      room: roomNumber,
+      message: message,
+      user: userName,
+    };
     // Add the message to the chat container
-    socket.emit("roomChat", message);
-    appendMessage("You", message, "sent");
+    socket.emit("send_msg", sendData);
 
-    socket.on("roomChat", (msg, connectedUser) => {
-      appendMessage(connectedUser, msg, "sent");
-    });
-    // appendMessage("You", message, "sent");
-    // Here you can implement the logic to send the message to the server
+    drawMessage(sendData);
     console.log(`Message sent: ${message}`);
 
     // Clear the input field after sending the message
@@ -35,38 +74,14 @@ function sendMessage() {
   }
 }
 
-function appendMessage(user, message, action) {
-  const messageElement = document.createElement("div");
-  messageElement.classList.add("chat-message");
-  messageElement.innerHTML = `<strong>${user}</strong> ${action}: ${message}`;
-  chatContainer.appendChild(messageElement);
-
-  // Automatically scroll to the bottom of the chat container
-  chatContainer.scrollTop = chatContainer.scrollHeight;
+function exitRoom(e) {
+  const message = `${userName}님이 퇴장하셨습니다.`;
+  drawUser(message);
+  e.preventDefault();
+  socket.emit("leave_room", roomNumber);
+  console.log("leave_room_client", roomNumber);
+  window.location.href = `/rooms?id=${userName}`;
 }
 
-function userJoined(user) {
-  // Add a system message to indicate user joining
-  appendMessage(user, "joined the room", "has");
-}
-
-function exitButton() {
-  window.location.href = "/rooms";
-}
-
-// Attach the event listener to the Send button
-
-const messageElement = document.createElement("div");
-if (sendButton) {
-  messageElement.classList.add("chat-message");
-  socket.on("roomChat", (msg) => {
-    console.log("message", msg);
-    messageElement.innerHTML = `<strong>상대방</strong> receive: ${msg}`;
-    chatContainer.appendChild(messageElement);
-  });
-  sendButton.addEventListener("click", sendMessage);
-}
-
-// Simulate a user joining the room on page load
-// userJoined("you");
-// });
+sendButton.addEventListener("click", sendMessage);
+exitButton.addEventListener("click", exitRoom);

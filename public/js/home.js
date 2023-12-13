@@ -6,7 +6,7 @@ const signUp = async () => {
   const passwordValue = getElementById("password");
 
   await axios
-    .post("http://localhost:3000/signup", {
+    .post(`${window.location.href}signup`, {
       id: idValue,
       password: passwordValue,
     })
@@ -23,9 +23,9 @@ const signIn = async () => {
   // console.log(inputId);
   const idValue = getElementById("id");
   const passwordValue = getElementById("password");
-
+  console.log(window.location.href);
   await axios
-    .post("http://localhost:3000/signin", {
+    .post(`${window.location.href}signin`, {
       id: idValue,
       password: passwordValue,
     })
