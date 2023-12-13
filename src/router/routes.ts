@@ -14,15 +14,15 @@ router.get("/", (req, res) => {
 router.get("/signup", (req, res) => {
   res.render("signup.html");
 });
-router.get("/main", (req, res) => {
-  res.render("room.html");
+router.get("/rooms", (req, res) => {
+  res.render("main.html");
 });
 
-router.get("/room1", (req, res) => {
+router.get("/rooms/room1", (req, res) => {
   res.render("room_chat.html", { roomNum: 1 });
 });
 
-router.get("/room2", (req, res) => {
+router.get("/rooms/room2", (req, res) => {
   res.render("room_chat.html", { roomNum: 2 });
 });
 

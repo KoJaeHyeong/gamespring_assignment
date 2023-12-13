@@ -15,16 +15,13 @@
         <li><a href="#">Logout</a></li>
       </ul>
     </nav>
-
     <div class="chat-room">
       <div class="room-info">
         <h2>Chat Room <span id="roomNumber">{{roomNum}}</span></h2>
       </div>
-
       <div class="chat-container" id="chatContainer">
         <!-- Chat messages will be displayed here -->
       </div>
-
       <div class="input-container">
         <input
           type="text"
@@ -33,12 +30,14 @@
         />
         <button id="sendButton">Send</button>
       </div>
-
       <div class="user-list">
         <h3>Participants</h3>
         <ul id="userList">
           <!-- User list will be displayed here -->
         </ul>
+      </div>
+      <div class="room_exit">
+        <button onclick="exitButton()">Exit</button>
       </div>
     </div>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>

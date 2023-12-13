@@ -30,9 +30,10 @@ const signIn = async () => {
       password: passwordValue,
     })
     .then((res) => {
-      window.location.href = "/main"; // 성공 시 메인 페이지로 이동
+      window.location.href = `/rooms?id=${idValue}`; // 성공 시 메인 페이지로 이동
     })
     .catch((err) => {
+      // window.location.href = "/rooms"; // 성공 시 메인 페이지로 이동
       alert(err.response.data.message);
     });
 };

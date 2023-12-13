@@ -3,39 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chat Application</title>
+    <title>Chat Rooms</title>
     <link rel="stylesheet" href="/public/css/main.css" />
   </head>
   <body>
-    <header>
-      <nav class="menu">
-        <ul>
-          <li>Room</li>
-          <li>Users</li>
-          <li>Friends</li>
-          <li>Logout</li>
-        </ul>
-      </nav>
-    </header>
+    <nav class="navbar">
+      <ul>
+        <li class="active"><a href="#">Rooms</a></li>
+        <li><a href="#">Users</a></li>
+        <li><a href="#">Friends</a></li>
+        <li><a href="#">Logout</a></li>
+      </ul>
+    </nav>
 
-    <main>
-      <div class="center-content">
-        <div class="info">
-          <p>참여인원: <span id="participant-count">0</span></p>
-          <p>방 번호: <span id="room-number">12345</span></p>
-        </div>
-
-        <div class="expandable-content" id="content">
-          <!-- 이곳에 내용이 동적으로 추가될 수 있습니다. -->
-        </div>
-
-        <div class="join-button">
-          <button id="join-btn">채팅방 입장</button>
-        </div>
+    <div class="room-container">
+      <div class="room">
+        <h2>Chat Room 1</h2>
+        <p>Participants: <span id="participants1">0</span></p>
+        <button onclick="joinRoom(1)">Join</button>
       </div>
-    </main>
 
+      <div class="room">
+        <h2>Chat Room 2</h2>
+        <p>Participants: <span id="participants2">0</span></p>
+        <button onclick="joinRoom(2)">Join</button>
+      </div>
+    </div>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
-    <script src="/public/css/app.js"></script>
+    <script src="/public/js/main.js"></script>
   </body>
 </html>
