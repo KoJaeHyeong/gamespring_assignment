@@ -9,7 +9,7 @@ import { ChatGateway } from "./apis/chat/chat.gateway";
 import { httpExceptionMiddleware } from "./middleware/http-exception-filter";
 import endRouter from "./router/routes";
 
-const port = 3000;
+// const port = 3000;
 
 class InitServer {
   public app: express.Application;
@@ -55,8 +55,10 @@ class InitServer {
       .initialize()
       .then(() => {
         console.log(`🚀DB Initialized Success`);
-        server.listen(port, () => {
-          console.log(`🚀server listening on http://localhost:${port}`);
+        server.listen(process.env.PORT, () => {
+          console.log(
+            `🚀server listening on http://localhost:${process.env.PORT}`
+          );
 
           // socket_server 인스턴스 생성
           new ChatGateway(createConnection(), server).socketListen();
