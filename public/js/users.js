@@ -10,7 +10,7 @@ async function createUserList() {
 
   const userContainer = document.getElementById("userContainer");
   userContainer.innerHTML = "";
-  console.log(userList);
+
   userList.forEach((user) => {
     const userDiv = document.createElement("div");
     userDiv.classList.add("user");
@@ -20,8 +20,10 @@ async function createUserList() {
           <p>친구수 : ${user.friends_count}</p>
         `;
     // <button onclick="sendFriendRequest('${user.id}')">친구요청</button>
+    console.log(user);
     const friendsStatus = user.friends_status;
 
+    console.log(friendsStatus);
     if (!friendsStatus) {
       const button = document.createElement("button");
       button.textContent = "친구요청";
@@ -35,13 +37,12 @@ async function createUserList() {
 
 // add request friends
 async function sendFriendRequest(friendName) {
-  console.log("@#@#@");
   const result = await axios.post(`${window.location.origin}/rooms/users`, {
     friends_id: friendName,
     user: userName,
   });
 
-  if (result.data.msg) {
+  if (result.data.data) {
     alert("요청이 완료 되었습니다.");
   } else {
     alert("이미 요청하였습니다.");

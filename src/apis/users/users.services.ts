@@ -107,11 +107,13 @@ export class UserService {
       } else {
         await this.friendsRepository.save({
           friends_id: friendsId,
+          request_id: user,
           user: { id: user },
         });
 
         await this.friendsRepository.save({
           friends_id: user,
+          request_id: user,
           user: { id: friendsId },
         });
 
@@ -127,9 +129,15 @@ export class UserService {
   requesteFriendsBox = async (userId: string) => {
     try {
       const friends = await this.friendsRepository.find({
-        where: { user: { id: userId }, friends_status: false },
+        where: {
+          user: { id: userId },
+          friends_status: false,
+          request_id: Not(userId),
+        },
         // relations: ["user"],
       });
+
+      console.log(friends);
 
       const newData = Promise.all(
         friends.map(async (user) => {
@@ -167,9 +175,6 @@ export class UserService {
         { friends_status: true }
       );
 
-      console.log(result1);
-      console.log(result2);
-
       if (result1.affected === 1 && result2.affected === 1) {
         return true;
       }
@@ -190,14 +195,41 @@ export class UserService {
         friends_id: userId,
       });
 
-      console.log(result1);
-      console.log(result2);
-
       if (result1.affected === 1 && result2.affected === 1) {
         return true;
       }
     } catch (error) {
       throw new HttpExceptionFilter(400, "친구 거절 실패!!");
+    }
+  };
+
+  allFriendsList = async (userId: string) => {
+    try {
+      const friends = await this.friendsRepository.find({
+        where: { user: { id: userId }, friends_status: true },
+      });
+
+      const newData = Promise.all(
+        friends.map(async (user) => {
+          const createdAtUser = await this.userRepository.findOne({
+            where: { id: user.friends_id },
+            select: ["created_at"],
+          });
+
+          const formatDate = this.formatDate(createdAtUser?.created_at);
+
+          const newFriendList = {
+            ...user,
+            user_created_at: formatDate,
+          };
+
+          return newFriendList;
+        })
+      );
+
+      return newData;
+    } catch (error: any) {
+      throw new HttpExceptionFilter(500, error);
     }
   };
 }

@@ -41,5 +41,6 @@ router.post("/rooms/users", userController.requestFriends);
 router.get("/rooms/friend/list/:id", userController.requestedBox);
 router.post("/rooms/friend/list/accept", userController.acceptRequest);
 router.post("/rooms/friend/list/reject", userController.rejectRequest);
+router.get("/rooms/friend/friendlist/:id", userController.fetchFriendList);
 
 export default router;

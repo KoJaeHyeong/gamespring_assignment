@@ -75,4 +75,12 @@ export class UserController {
 
     return res.status(200).send({ success: true, data: result });
   };
+
+  fetchFriendList = async (req: Request, res: Response) => {
+    const userId = req.params.id;
+
+    const result = await this.userService.allFriendsList(userId);
+
+    return res.status(200).send({ success: true, data: result });
+  };
 }

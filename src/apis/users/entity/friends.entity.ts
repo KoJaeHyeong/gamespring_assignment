@@ -18,6 +18,9 @@ export class FriendsList {
   @Column({ nullable: false })
   friends_id?: string;
 
+  @Column({ nullable: false })
+  request_id?: string;
+
   @Column({ default: false })
   friends_status!: boolean;
 
