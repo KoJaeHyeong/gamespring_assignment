@@ -1,6 +1,7 @@
 import * as bcrypt from "bcrypt";
 import { Not } from "typeorm";
 import { createConnection } from "../../../ormconfig";
+import { formatTimestamp } from "../../common/commonFunc";
 import { HttpExceptionFilter } from "../../middleware/http-exception-filter";
 import { FriendsList } from "./entity/friends.entity";
 import { User } from "./entity/users.entity";
@@ -42,17 +43,6 @@ export class UserService {
     return true;
   };
 
-  //todo 공통으로 뺼것!
-
-  formatDate(date: any) {
-    const originalDate = new Date(date);
-    const year = originalDate.getFullYear();
-    const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
-    const day = originalDate.getDate().toString().padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
-  }
-
   connectedAllUser = async (userId: string) => {
     // 본인 제외한 친구 정보 조회
     const users = await this.userRepository.find({
@@ -61,23 +51,15 @@ export class UserService {
     });
 
     const userData = users.map((el) => {
-      // date날짜 formatting
-      // const originalDate = new Date(el.created_at);
-      // const year = originalDate.getFullYear();
-      // const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
-      // const day = originalDate.getDate().toString().padStart(2, "0");
-
-      const formattedDate = this.formatDate(el.created_at);
+      const formattedDate = formatTimestamp(el.created_at);
 
       const friendsList = el.friends_list.filter(
-        (e) => e.friends_status === true && e.friends_id === userId
+        (e) => e.friends_status === true
       );
 
       let friendStatus: boolean = false;
 
       for (const item of friendsList) {
-        console.log("item", item);
-
         if (item.friends_id === userId) {
           friendStatus = item.friends_status;
         }
@@ -134,10 +116,7 @@ export class UserService {
           friends_status: false,
           request_id: Not(userId),
         },
-        // relations: ["user"],
       });
-
-      console.log(friends);
 
       const newData = Promise.all(
         friends.map(async (user) => {
@@ -146,7 +125,7 @@ export class UserService {
             select: ["created_at"],
           });
 
-          const formatDate = this.formatDate(createdAtUser?.created_at);
+          const formatDate: string = formatTimestamp(createdAtUser?.created_at);
 
           const newFriendList = {
             ...user,
@@ -216,7 +195,7 @@ export class UserService {
             select: ["created_at"],
           });
 
-          const formatDate = this.formatDate(createdAtUser?.created_at);
+          const formatDate = formatTimestamp(createdAtUser?.created_at);
 
           const newFriendList = {
             ...user,

@@ -14,12 +14,12 @@ document.addEventListener("DOMContentLoaded", function () {
   requestListRender();
 });
 
+// 친구 요청 수신함 표출
 async function requestListRender() {
   // 목록 클릭시 active 표시
   requestListTab.classList.add("active");
   friendListTab.classList.remove("active");
 
-  // GET requestList
   const friends = await axios.get(
     `${window.location.origin}/rooms/friend/list/${userName}`
   );
@@ -40,6 +40,7 @@ async function requestListRender() {
   });
 }
 
+// 친구 목록 표출
 async function friendListRender() {
   // 목록 클릭시 active 표시
   friendListTab.classList.add("active");
@@ -73,14 +74,15 @@ function renderButtons(status, friendsId) {
         `;
   } else if (status === true) {
     return `
-            <button class="remove-btn" onclick="removeFriend()">친구 삭제</button>
-            <button class="dm-btn" onclick="sendDirectMessage()">DM</button>
+            <button class="remove-btn" onclick="removeFriend('${friendsId}')">친구 삭제</button>
+            <button class="dm-btn" onclick="sendDirectMessage('${friendsId}')">DM</button>
         `;
   }
 
   return "";
 }
 
+// 친구 요청 수락
 async function acceptFriendRequest(friendsId) {
   const result = await axios.post(
     `${window.location.origin}/rooms/friend/list/accept`,
@@ -96,18 +98,42 @@ async function acceptFriendRequest(friendsId) {
   }
 }
 
-function rejectFriendRequest() {
-  // Logic for rejecting friend request
-  console.log("Friend request rejected!");
+// 친구 요청 거절
+async function rejectFriendRequest(friendsId) {
+  const result = await axios.post(
+    `${window.location.origin}/rooms/friend/list/reject`,
+    {
+      user_id: userName,
+      friends_id: friendsId,
+    }
+  );
+
+  if (result.data.data) {
+    alert("거절되었습니다.");
+    window.location.reload();
+  }
 }
 
-function removeFriend() {
-  // Logic for removing friend
-  console.log("Friend removed!");
+// 친구 삭제
+async function removeFriend(friendsId) {
+  const result = await axios.post(
+    `${window.location.origin}/rooms/friend/list/reject`,
+    {
+      user_id: userName,
+      friends_id: friendsId,
+    }
+  );
+
+  if (result.data.data) {
+    alert("삭제되었습니다..");
+    // window.location.reload();
+    friendListRender();
+  }
 }
 
-function sendDirectMessage() {
-  // Logic for sending direct message
+//DM
+function sendDirectMessage(friendsId) {
+  window.location.href = `${window.location.origin}/rooms/friend/private?id=${userName}?id=${friendsId}`;
   console.log("Direct message sent!");
 }
 

@@ -48,9 +48,6 @@ function drawParticipants(user) {
   participantsElement.innerHTML = user;
   participantsList.appendChild(participantsElement);
 
-  // participantsList.appendChild(participantsElement);
-
-  // Automatically scroll to the bottom of the chat container
   participantsList.scrollTop = participantsList.scrollHeight;
 }
 

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Room</title>
+    <link rel="stylesheet" href="/public/css/private_chat.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul>
+        <li><a href="#">Rooms</a></li>
+        <li><a href="#">Users</a></li>
+        <li class="active"><a href="#">Friends</a></li>
+        <li><a href="#">Logout</a></li>
+      </ul>
+    </nav>
+    <div class="chat-room">
+      <div class="room-info">
+        <h2>Chat Room <span id="roomNumber">{{roomNum}}</span></h2>
+      </div>
+      <div class="chat-container" id="chatContainer"></div>
+      <div class="input-container">
+        <input
+          type="text"
+          id="messageInput"
+          placeholder="Type your message..."
+        />
+        <button id="sendButton">Send</button>
+      </div>
+      <div class="room_exit">
+        <button id="exitButton">Exit</button>
+      </div>
+    </div>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script src="/public/js/private_chat.js"></script>
+  </body>
+</html>

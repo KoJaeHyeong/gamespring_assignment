@@ -34,6 +34,10 @@ router.get("/rooms/friend", (req, res) => {
   res.render("friends.html");
 });
 
+router.get("/rooms/friend/private", (req, res) => {
+  res.render("private_chat.html");
+});
+
 router.post("/signup", userController.signUp);
 router.post("/signin", userController.signIn);
 router.get("/rooms/users/:id", userController.findAllUserList);
@@ -42,5 +46,5 @@ router.get("/rooms/friend/list/:id", userController.requestedBox);
 router.post("/rooms/friend/list/accept", userController.acceptRequest);
 router.post("/rooms/friend/list/reject", userController.rejectRequest);
 router.get("/rooms/friend/friendlist/:id", userController.fetchFriendList);
-
+// router.delete("/rooms/friend/list/reject", userController.rejectRequest);
 export default router;
