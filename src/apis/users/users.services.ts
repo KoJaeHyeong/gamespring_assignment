@@ -133,10 +133,8 @@ export class UserService {
 
       const newData = Promise.all(
         friends.map(async (user) => {
-          const userId = user.friends_id;
-
           const createdAtUser = await this.userRepository.findOne({
-            where: { id: userId },
+            where: { id: user.friends_id },
             select: ["created_at"],
           });
 
@@ -154,6 +152,52 @@ export class UserService {
       return newData;
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  acceptRequest = async (userId: string, friendsId: string) => {
+    try {
+      const result1 = await this.friendsRepository.update(
+        { user: { id: userId }, friends_id: friendsId },
+        { friends_status: true }
+      );
+
+      const result2 = await this.friendsRepository.update(
+        { user: { id: friendsId }, friends_id: userId },
+        { friends_status: true }
+      );
+
+      console.log(result1);
+      console.log(result2);
+
+      if (result1.affected === 1 && result2.affected === 1) {
+        return true;
+      }
+    } catch (error) {
+      throw new HttpExceptionFilter(400, "친구 수락 실패!!");
+    }
+  };
+
+  rejectRequest = async (userId: string, friendsId: string) => {
+    try {
+      const result1 = await this.friendsRepository.delete({
+        user: { id: userId },
+        friends_id: friendsId,
+      });
+
+      const result2 = await this.friendsRepository.delete({
+        user: { id: friendsId },
+        friends_id: userId,
+      });
+
+      console.log(result1);
+      console.log(result2);
+
+      if (result1.affected === 1 && result2.affected === 1) {
+        return true;
+      }
+    } catch (error) {
+      throw new HttpExceptionFilter(400, "친구 거절 실패!!");
     }
   };
 }

@@ -18,7 +18,7 @@ export class UserController {
 
     await this.userService.create(userInfo);
 
-    return res.status(201).send({ success: true, msg: "ok" });
+    return res.status(201).send({ success: true, data: "ok" });
   };
 
   signIn = async (req: Request, res: Response) => {
@@ -33,7 +33,7 @@ export class UserController {
     const result = await this.userService.signInUser(loginInfo);
     console.log(result);
 
-    return res.status(200).send({ success: true, msg: "ok" });
+    return res.status(200).send({ success: true, data: "ok" });
   };
 
   findAllUserList = async (req: Request, res: Response) => {
@@ -48,7 +48,7 @@ export class UserController {
     const { friends_id, user } = req.body;
     const result = await this.userService.requestFriends(friends_id, user);
 
-    return res.status(201).send({ success: true, msg: result });
+    return res.status(201).send({ success: true, data: result });
   };
 
   requestedBox = async (req: Request, res: Response) => {
@@ -60,7 +60,19 @@ export class UserController {
     return res.status(200).send({ success: true, data: result });
   };
 
-  acceptRequest = async (req: Request, res: Response) => {};
+  acceptRequest = async (req: Request, res: Response) => {
+    const { user_id, friends_id } = req.body;
 
-  rejectRequest = async (req: Request, res: Response) => {};
+    const result = await this.userService.acceptRequest(user_id, friends_id);
+
+    return res.status(200).send({ success: true, data: result });
+  };
+
+  rejectRequest = async (req: Request, res: Response) => {
+    const { user_id, friends_id } = req.body;
+
+    const result = await this.userService.rejectRequest(user_id, friends_id);
+
+    return res.status(200).send({ success: true, data: result });
+  };
 }
