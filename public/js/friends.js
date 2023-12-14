@@ -1,14 +1,6 @@
 const userName = window.location.href.split("=")[1];
 const requestListTab = document.getElementById("requestListTab");
 const friendListTab = document.getElementById("friendListTab");
-// friends.js
-
-// Mock data for demonstration purposes
-const friendsData = [
-  { id: "friend1", joinDate: "2023-01-01", status: "pending" },
-  //   { id: "friend2", joinDate: "2023-02-01", status: "accepted" },
-  // Add more friend data as needed
-];
 
 document.addEventListener("DOMContentLoaded", function () {
   requestListRender();
@@ -131,7 +123,7 @@ async function removeFriend(friendsId) {
   }
 }
 
-//DM
+// DM
 function sendDirectMessage(friendsId) {
   window.location.href = `${window.location.origin}/rooms/friend/private?id=${userName}?id=${friendsId}`;
   console.log("Direct message sent!");
@@ -175,7 +167,7 @@ function navigateTo(endPoint) {
       usersTab.classList.remove("active");
       friendsTab.classList.remove("active");
       logoutTab.classList.add("active");
-      window.location.href = `${window.location.origin}/rooms?id=${userName}`; //todo logout url
+      window.location.href = `${window.location.origin}`;
       break;
   }
 }

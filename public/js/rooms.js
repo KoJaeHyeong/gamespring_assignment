@@ -3,22 +3,12 @@ const participantCount1 = document.getElementById("participants1");
 const participantCount2 = document.getElementById("participants2");
 
 const userName = window.location.href.split("=")[1];
-// const socket = io.connect("http://localhost:3000", {
-//   reconnection: true,
-//   reconnectionDelay: 1000,
-//   reconnectionAttempts: 5,
-//   forceNew: false,
-// });
 
 const socket = io();
-
-console.log("@@@@@@@@@@시작");
-console.log(socket.id);
 
 socket.emit("userInfo", userName);
 
 socket.on("roomInfo", (data) => {
-  console.log("data", data);
   participant(data.room1, data.room2);
 });
 
@@ -29,8 +19,6 @@ function participant(room1, room2) {
 }
 
 function joinRoom(roomNumber) {
-  // console.log(`room${roomNumber}`);
-  // socket.emit("joinRoom", { room: `room${roomNumber}`, user_name: userName });
   window.location.href = `rooms/room${roomNumber}?id=${userName}`;
 }
 
@@ -63,14 +51,14 @@ function navigateTo(endPoint) {
       usersTab.classList.remove("active");
       friendsTab.classList.add("active");
       logoutTab.classList.remove("active");
-      window.location.href = `${window.location.origin}/rooms/friend?id=${userName}`; //todo friends url
+      window.location.href = `${window.location.origin}/rooms/friend?id=${userName}`;
       break;
     case "logout":
       roomsTab.classList.remove("active");
       usersTab.classList.remove("active");
       friendsTab.classList.remove("active");
       logoutTab.classList.add("active");
-      window.location.href = `${window.location.origin}/rooms?id=${userName}`; //todo logout url
+      window.location.href = `${window.location.origin}`; // todo
       break;
   }
 }

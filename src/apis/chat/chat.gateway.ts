@@ -8,8 +8,7 @@ export class ChatGateway {
   public io: Server;
 
   constructor(
-    //.getRepository(User),
-    private readonly userRepository: DataSource,
+    private readonly repository: DataSource,
     private readonly server: http.Server
   ) {
     const io = new Server(server, {
@@ -78,17 +77,17 @@ export class ChatGateway {
         callback();
 
         // 1대1 채팅 roomId 이미 존재하는지 확인
-        const isExistedRoomId1 = await this.userRepository
+        const isExistedRoomId1 = await this.repository
           .getRepository(Room)
           .findOne({
-            where: { chat_name: data.userName, chat_name2: data.receiveName },
+            where: { chat_name1: data.userName, chat_name2: data.receiveName },
           });
 
-        const isExistedRoomId2 = await this.userRepository
+        const isExistedRoomId2 = await this.repository
           .getRepository(Room)
           .findOne({
             where: {
-              chat_name: data.receiveName,
+              chat_name1: data.receiveName,
               chat_name2: data.userName,
             },
           });
@@ -99,13 +98,13 @@ export class ChatGateway {
           // roomId를 통일 시키기 위함.
           let roomUniqueId = uuidv4();
 
-          const room1 = await this.userRepository.getRepository(Room).save({
+          const room1 = await this.repository.getRepository(Room).save({
             room_id: roomUniqueId,
             chat_name: data.userName,
             chat_name2: data.receiveName,
           });
 
-          await this.userRepository.getRepository(Room).save({
+          await this.repository.getRepository(Room).save({
             room_id: roomUniqueId,
             chat_name: data.receiveName,
             chat_name2: data.userName,

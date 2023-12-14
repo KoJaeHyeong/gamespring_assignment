@@ -18,7 +18,7 @@ export class Room {
   room_id!: string;
 
   @Column()
-  chat_name!: string;
+  chat_name1!: string;
 
   @Column()
   chat_name2!: string;

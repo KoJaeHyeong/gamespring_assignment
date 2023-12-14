@@ -15,7 +15,7 @@ router.get("/signup", (req, res) => {
   res.render("signup.html");
 });
 router.get("/rooms", (req, res) => {
-  res.render("main.html");
+  res.render("rooms.html");
 });
 
 router.get("/rooms/room1", (req, res) => {

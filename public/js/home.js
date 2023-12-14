@@ -1,7 +1,6 @@
 const getElementById = (id) => document.getElementById(id).value || "";
 
 const signUp = async () => {
-  // console.log(inputId);
   const idValue = getElementById("id");
   const passwordValue = getElementById("password");
 
@@ -20,7 +19,6 @@ const signUp = async () => {
 };
 
 const signIn = async () => {
-  // console.log(inputId);
   const idValue = getElementById("id");
   const passwordValue = getElementById("password");
   console.log(window.location.href);

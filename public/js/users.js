@@ -94,7 +94,7 @@ function navigateTo(endPoint) {
       usersTab.classList.remove("active");
       friendsTab.classList.remove("active");
       logoutTab.classList.add("active");
-      window.location.href = `${window.location.origin}/rooms?id=${userName}`; //todo logout url
+      window.location.href = `${window.location.origin}`;
       break;
   }
 }

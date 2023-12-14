@@ -13,15 +13,12 @@ const socket = io();
 socket.emit("joinRoom", { room: `${roomNumber}`, user_name: userName }, () => {
   const message = `${userName}님이 입장하였습니다.`;
   drawUser(message);
-  // drawParticipants(userName);
 });
 
 // room 입장 관련 통신
 socket.on("newUser", (data, userList) => {
   const message = `${data.user_name}님이 입장하였습니다.`;
   drawUser(message);
-  // drawParticipants(user);
-  // drawParticipants(`${userName}`);
 });
 
 // room 채팅 메시지 표출 통신
@@ -36,14 +33,12 @@ function drawUser(message) {
   messageElement.innerHTML = message;
   chatContainer.appendChild(messageElement);
 
-  // Automatically scroll to the bottom of the chat container
   chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
 // 채팅 참여자 목록 표출
 function drawParticipants(user) {
   const participantsElement = document.createElement("div");
-  // participantsElement.classList.add("chat-message");
   console.log(participantsElement);
   participantsElement.innerHTML = user;
   participantsList.appendChild(participantsElement);
