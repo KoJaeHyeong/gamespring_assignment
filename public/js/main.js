@@ -47,7 +47,7 @@ function navigateTo(endPoint) {
       usersTab.classList.remove("active");
       friendsTab.classList.remove("active");
       logoutTab.classList.remove("active");
-      window.location.href = `rooms?id=${userName}`;
+      window.location.href = `${window.location.origin}/rooms?id=${userName}`;
       break;
 
     case "users":
@@ -55,7 +55,7 @@ function navigateTo(endPoint) {
       usersTab.classList.add("active");
       friendsTab.classList.remove("active");
       logoutTab.classList.remove("active");
-      window.location.href = `rooms/users?id=${userName}`;
+      window.location.href = `${window.location.origin}/rooms/users?id=${userName}`;
       break;
 
     case "friends":
@@ -63,14 +63,14 @@ function navigateTo(endPoint) {
       usersTab.classList.remove("active");
       friendsTab.classList.add("active");
       logoutTab.classList.remove("active");
-      window.location.href = `rooms?id=${userName}`; //todo friends url
+      window.location.href = `${window.location.origin}/rooms/friend?id=${userName}`; //todo friends url
       break;
     case "logout":
       roomsTab.classList.remove("active");
       usersTab.classList.remove("active");
       friendsTab.classList.remove("active");
       logoutTab.classList.add("active");
-      window.location.href = `rooms?id=${userName}`; //todo logout url
+      window.location.href = `${window.location.origin}/rooms?id=${userName}`; //todo logout url
       break;
   }
 }

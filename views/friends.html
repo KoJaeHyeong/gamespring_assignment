@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User List</title>
-    <link rel="stylesheet" href="/public/css/users.css" />
+    <title>Friends</title>
+    <link rel="stylesheet" href="/public/css/friends.css" />
   </head>
   <body>
     <nav class="navbar">
@@ -12,10 +12,10 @@
         <li id="roomsTab">
           <a href="#" onclick="navigateTo('rooms')">Rooms</a>
         </li>
-        <li id="usersTab" class="active">
+        <li id="usersTab">
           <a href="#" onclick="navigateTo('users')">Users</a>
         </li>
-        <li id="friendsTab">
+        <li id="friendsTab" class="active">
           <a href="#" onclick="navigateTo('friends')">Friends</a>
         </li>
         <li id="logoutTab">
@@ -23,10 +23,16 @@
         </li>
       </ul>
     </nav>
+    <nav class="navbar">
+      <ul>
+        <li><a href="#" onclick="">수신함</a></li>
+        <li><a href="#" onclick="">목록</a></li>
+      </ul>
+    </nav>
 
-    <div class="user-container" id="userContainer"></div>
+    <div class="friends-container" id="friendsContainer"></div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
-    <script src="/public/js/users.js"></script>
+    <script src="/public/js/friends.js"></script>
   </body>
 </html>

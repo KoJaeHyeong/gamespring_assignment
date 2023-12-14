@@ -30,8 +30,14 @@ router.get("/rooms/users", (req, res) => {
   res.render("users.html");
 });
 
+router.get("/rooms/friend", (req, res) => {
+  res.render("friends.html");
+});
+
 router.post("/signup", userController.signUp);
 router.post("/signin", userController.signIn);
 router.get("/rooms/users/:id", userController.findAllUserList);
+router.post("/rooms/users", userController.requestFriends);
+router.get("/rooms/friend/list/:id", userController.requestedBox);
 
 export default router;

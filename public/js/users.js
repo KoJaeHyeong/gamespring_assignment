@@ -1,15 +1,6 @@
 const userName = window.location.href.split("=")[1];
 
-// Dummy data for user list
-const usersData = [
-  { id: 1, username: "user1", joinDate: "2023-01-01", friendCount: 3 },
-  { id: 2, username: "user2", joinDate: "2023-01-02", friendCount: 5 },
-  { id: 3, username: "user3", joinDate: "2023-01-03", friendCount: 2 },
-  // Add more user data as needed
-];
-
-// Function to create user list HTML
-async function createUserList(users) {
+async function createUserList() {
   // fetch findAllUserList API
   const result = await axios.get(
     `${window.location.origin}/rooms/users/${userName}`
@@ -19,7 +10,7 @@ async function createUserList(users) {
 
   const userContainer = document.getElementById("userContainer");
   userContainer.innerHTML = "";
-
+  console.log(userList);
   userList.forEach((user) => {
     const userDiv = document.createElement("div");
     userDiv.classList.add("user");
@@ -27,21 +18,40 @@ async function createUserList(users) {
           <p>ID: ${user.id}</p>
           <p>가입날짜: ${user.created_at}</p>
           <p>친구수 : ${user.friends_count}</p>
-          <button onclick="sendFriendRequest(${user.id})">Send Friend Request</button>
         `;
+    // <button onclick="sendFriendRequest('${user.id}')">친구요청</button>
+    const friendsStatus = user.friends_status;
+
+    if (!friendsStatus) {
+      const button = document.createElement("button");
+      button.textContent = "친구요청";
+      button.onclick = () => sendFriendRequest(user.id);
+      userDiv.appendChild(button);
+    }
 
     userContainer.appendChild(userDiv);
   });
 }
 
-// Function to simulate sending a friend request
-function sendFriendRequest(userId) {
-  // You can implement the logic to send a friend request here
-  console.log(`Friend request sent to user with ID ${userId}`);
+// add request friends
+async function sendFriendRequest(friendName) {
+  console.log("@#@#@");
+  const result = await axios.post(`${window.location.origin}/rooms/users`, {
+    friends_id: friendName,
+    user: userName,
+  });
+
+  if (result.data.msg) {
+    alert("요청이 완료 되었습니다.");
+  } else {
+    alert("이미 요청하였습니다.");
+  }
+
+  window.location.href = `${window.location.origin}/rooms/users?=${userName}`;
 }
 
-// Initially create user list with dummy data
-createUserList(usersData);
+// add request friends list
+createUserList();
 
 // navigation bar
 
@@ -75,7 +85,7 @@ function navigateTo(endPoint) {
       usersTab.classList.remove("active");
       friendsTab.classList.add("active");
       logoutTab.classList.remove("active");
-      window.location.href = `rooms?id=${userName}`; //todo friends url
+      window.location.href = `${window.location.origin}/rooms/friend?id=${userName}`; //todo friends url
       break;
 
     case "logout":
@@ -83,7 +93,7 @@ function navigateTo(endPoint) {
       usersTab.classList.remove("active");
       friendsTab.classList.remove("active");
       logoutTab.classList.add("active");
-      window.location.href = `rooms?id=${userName}`; //todo logout url
+      window.location.href = `${window.location.origin}/rooms?id=${userName}`; //todo logout url
       break;
   }
 }

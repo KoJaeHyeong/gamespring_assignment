@@ -15,8 +15,8 @@ export class FriendsList {
   @PrimaryGeneratedColumn("increment")
   id!: number;
 
-  @Column()
-  friends_id!: string;
+  @Column({ nullable: false })
+  friends_id?: string;
 
   @Column({ default: false })
   friends_status!: boolean;

@@ -37,12 +37,30 @@ export class UserController {
   };
 
   findAllUserList = async (req: Request, res: Response) => {
-    console.log("req.query", req.params);
-
     const userId = req.params.id;
 
     const result = await this.userService.connectedAllUser(userId);
 
     return res.status(200).send({ sucess: true, data: result });
   };
+
+  requestFriends = async (req: Request, res: Response) => {
+    const { friends_id, user } = req.body;
+    const result = await this.userService.requestFriends(friends_id, user);
+
+    return res.status(201).send({ success: true, msg: result });
+  };
+
+  requestedBox = async (req: Request, res: Response) => {
+    const userId = req.params.id;
+    console.log(userId);
+
+    const result = await this.userService.requesteFriendsBox(userId);
+
+    return res.status(200).send({ success: true, data: result });
+  };
+
+  acceptRequest = async (req: Request, res: Response) => {};
+
+  rejectRequest = async (req: Request, res: Response) => {};
 }
