@@ -100,13 +100,13 @@ export class ChatGateway {
 
           const room1 = await this.repository.getRepository(Room).save({
             room_id: roomUniqueId,
-            chat_name: data.userName,
+            chat_name1: data.userName,
             chat_name2: data.receiveName,
           });
 
           await this.repository.getRepository(Room).save({
             room_id: roomUniqueId,
-            chat_name: data.receiveName,
+            chat_name1: data.receiveName,
             chat_name2: data.userName,
           });
           roomId = room1.room_id;
